@@ -1,10 +1,10 @@
-package com.atividade.library;
+package com.atividade.library.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.atividade.library")
+@ComponentScan
 public class LibraryApplicationConfig {
 	
 }

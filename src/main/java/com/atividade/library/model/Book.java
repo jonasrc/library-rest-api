@@ -1,56 +1,57 @@
-package com.atividade.library;
+package com.atividade.library.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-import java.lang.*;
+import java.util.UUID;
 
-@Component
-public class Book implements BookInterface {
-	@Autowired
-	private Integer id;
-
-	@Autowired
+public class Book {
+	private String id;
+	
 	private String title;
-
-	@Autowired
+	
 	private String author;
-
-	@Autowired
+	
 	private String edition;
 	
-	public Book(Integer id, String title, String author, String edition) {
+	public Book(String title, String author, String edition) {
+		this.title = title;
+		this.author = author;
+		this.edition = edition;
+	}
+	
+	public Book(String id, String title, String author, String edition) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.edition = edition;
 	}
 
-	@Override
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getTitle() {
 		return title;
 	}
 
-	@Override
 	public void setTitle(String title) {
 		this.title = title;
 	}
 
-	@Override
 	public String getAuthor() {
 		return author;
 	}
 
-	@Override
 	public void setAuthor(String author) {
 		this.author = author;
 	}
 
-	@Override
 	public String getEdition() {
 		return edition;
 	}
 
-	@Override
 	public void setEdition(String edition) {
 		this.edition = edition;
 	}
