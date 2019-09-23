@@ -1,4 +1,4 @@
-package com.atividade.library.model;
+package com.atividade.library.domain;
 
 import java.util.UUID;
 
@@ -11,25 +11,18 @@ public class Book {
 	
 	private String edition;
 	
-	public Book(String title, String author, String edition) {
-		this.title = title;
-		this.author = author;
-		this.edition = edition;
-	}
+	private Double price;
 	
-	public Book(String id, String title, String author, String edition) {
-		this.id = id;
+	public Book(String title, String author, String edition, Double price) {
+		this.id = UUID.randomUUID().toString();
 		this.title = title;
 		this.author = author;
 		this.edition = edition;
+		this.price = price;
 	}
 
 	public String getId() {
 		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getTitle() {
@@ -54,5 +47,13 @@ public class Book {
 
 	public void setEdition(String edition) {
 		this.edition = edition;
+	}
+
+	public Double getPrice() {
+		return price;
+	}
+
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 }
