@@ -1,7 +1,8 @@
 package com.atividade.library.service.implementation;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import javax.annotation.PostConstruct;
 
@@ -15,54 +16,82 @@ import com.atividade.library.service.ShoppingCartService;
 
 @Service
 public class ShoppingCartServiceImpl implements ShoppingCartService {
-
-	private ShoppingCart mockShoppingCart;
 	
 	@Autowired
 	private BookService bookService;
-	
-	@Override
-	public ShoppingCart getShoppingCart() {
-		return mockShoppingCart;
-	}
 
-	@Override
-	public ShoppingCart addBook(String bookId) {
-		Book book = bookService.findBookOrFail(bookId);
-		
-		Optional<Book> bookOnShoppingCartList = getBookFromShoppingCartList(bookId);
-		if(bookOnShoppingCartList.isPresent()) {
-			throw new NoSuchElementException("Book with id \"" + bookId + "\" already on shopping cart.");
-		}
-		
-		this.mockShoppingCart.addBook(book);
-		return this.mockShoppingCart;
-	}
-
-	@Override
-	public ShoppingCart removeBook(String bookId) {
-		Book book = bookService.findBookOrFail(bookId);
-		
-		Optional<Book> bookOnShoppingCartList = getBookFromShoppingCartList(bookId);
-		if(!bookOnShoppingCartList.isPresent()) {
-			throw new NoSuchElementException("Book with id \"" + bookId + "\" not found on shopping cart.");
-		}
-		
-		this.mockShoppingCart.removeBook(book);
-		return this.mockShoppingCart;
-	}
-	
-	private Optional<Book> getBookFromShoppingCartList(String bookId) {
-		return this.mockShoppingCart
-				.getBookList()
-				.stream()
-				.filter(element -> element.getId().equals(bookId))
-				.findFirst(); 
-	}
+	private List<ShoppingCart> mockShoppingCartList;
 	
 	@PostConstruct
-	public void createMockShoppingCart() {
-		Book book = bookService.getRandomBook();
-		this.mockShoppingCart = new ShoppingCart(book);
+	public void createMockShoppingCartList() {
+		this.mockShoppingCartList = new ArrayList<>();
+		this.mockShoppingCartList.add(new ShoppingCart(bookService.getRandom()));
+		this.mockShoppingCartList.add(new ShoppingCart(bookService.getRandom()));
+		this.mockShoppingCartList.add(new ShoppingCart(bookService.getRandom()));
+	}
+	
+	@Override
+	public ShoppingCart getById(String id) {
+		return findOrFail(id);
+	}
+	
+	@Override
+	public List<ShoppingCart> getList() {
+		return this.mockShoppingCartList;
+	}
+
+	@Override
+	public ShoppingCart addBook(String shoppingCartId, String bookId) {
+		// Getting shopping cart from list
+		ShoppingCart shoppingCart = findOrFail(shoppingCartId);
+		
+		// Getting book from book list
+		Book book = bookService.getById(bookId);
+		
+		// Getting book list from shopping cart
+		List<Book> shoppingCartBookList = shoppingCart.getBookList();
+		
+		// Adding book and returning resulting shopping cart
+		shoppingCartBookList.add(book);
+		return shoppingCart;
+	}
+
+	@Override
+	public ShoppingCart removeBook(String shoppingCartId, String bookId) {
+		// Getting shopping cart from list
+		ShoppingCart shoppingCart = findOrFail(shoppingCartId);
+		
+		// Getting book from book list
+		Book book = bookService.getById(bookId);
+		
+		// Getting book list from shopping cart
+		List<Book> shoppingCartBookList = shoppingCart.getBookList();
+		
+		// Asserting that the book is on the shopping cart list
+		if(shoppingCartBookList
+				.stream()
+				.filter(element -> element.getId().equals(bookId))
+				.findAny()
+				.isEmpty()) {
+			throw new NoSuchElementException("Book is not on list.");
+		}
+		
+		// Removing book and returning resulting shopping cart
+		shoppingCartBookList.remove(book);
+		return shoppingCart;
+	}
+	
+	private ShoppingCart findOrFail(String id) {
+		ShoppingCart shoppingCart = this.mockShoppingCartList
+				.stream()
+				.filter(element -> element.getId().equals(id))
+				.findAny()
+				.orElse(null);
+		
+		if(shoppingCart == null) {
+			throw new NoSuchElementException("Shopping cart not found.");
+		}
+		
+		return shoppingCart;
 	}
 }

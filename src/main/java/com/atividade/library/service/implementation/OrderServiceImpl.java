@@ -1,5 +1,11 @@
 package com.atividade.library.service.implementation;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +20,49 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
-	public Order getOrder(String id) {
-		return new Order(shoppingCartService.getShoppingCart());
+	private List<Order> orderList;
+	
+	@PostConstruct
+	private void buildMockList() {
+		this.orderList = new ArrayList<>();
+		
+		shoppingCartService.getList().stream().forEach(
+			element -> this.orderList.add(new Order(element, calculateTotalPrice(element))
+		));
 	}
 	
-	public Order postOrder(ShoppingCart shoppingCart) {
-		return new Order(shoppingCart);
+	@Override
+	public Order getById(String id) {
+		return findOrFail(id);
+	}
+	
+	@Override
+	public List<Order> getList() {
+		return this.orderList;
+	}
+	
+	@Override
+	public Order create(String shoppingCartId) {
+		ShoppingCart shoppingCart = shoppingCartService.getById(shoppingCartId);
+		
+		if(shoppingCart.getBookList().isEmpty()) {
+			throw new NoSuchElementException("Shopping cart is empty.");
+		}
+		
+		return new Order(shoppingCart, calculateTotalPrice(shoppingCart));
+	}
+	
+	public Order findOrFail(String id) {
+		Order order = orderList.stream().filter(element -> element.getId().equals(id)).findAny().orElse(null);
+		
+		if(order == null) {
+			throw new NoSuchElementException("Order with id \"" + id + "\" not found.");
+		}
+		
+		return order;
+	}
+	
+	private Double calculateTotalPrice(ShoppingCart shoppingCart) {
+		return shoppingCart.getBookList().stream().map(element -> element.getPrice()).mapToDouble(Double::doubleValue).sum();
 	}
 }

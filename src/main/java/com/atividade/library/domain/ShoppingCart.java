@@ -14,7 +14,7 @@ public class ShoppingCart {
 	
 	public ShoppingCart(Book book) {
 		this.id = UUID.randomUUID().toString();
-		addBook(book);
+		this.bookList.add(book);
 	}
 
 	public String getId() {
@@ -31,13 +31,5 @@ public class ShoppingCart {
 
 	public void setBookList(List<Book> bookList) {
 		this.bookList = bookList;
-	}
-	
-	public void addBook(Book book) {
-		this.bookList.add(book);
-	}
-	
-	public void removeBook(Book book) {
-		this.bookList.remove(book);
 	}
 }

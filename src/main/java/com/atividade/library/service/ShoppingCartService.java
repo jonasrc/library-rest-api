@@ -1,12 +1,15 @@
 package com.atividade.library.service;
 
-import com.atividade.library.domain.Book;
+import java.util.List;
+
 import com.atividade.library.domain.ShoppingCart;
 
 public interface ShoppingCartService {
-	public ShoppingCart getShoppingCart();
+	public ShoppingCart getById(String id);
 	
-	public ShoppingCart addBook(String bookId);
+	public List<ShoppingCart> getList();
 	
-	public ShoppingCart removeBook(String bookId);
+	public ShoppingCart addBook(String shoppingCartId, String bookId);
+	
+	public ShoppingCart removeBook(String shoppingCartId, String bookId);
 }

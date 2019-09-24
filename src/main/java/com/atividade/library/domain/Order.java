@@ -9,14 +9,15 @@ public class Order {
 	
 	private Double totalPrice;
 	
-	public Order(ShoppingCart shoppingCart) {
+	private String status;
+	
+	private static final String pendingStatus = "Pendente";
+	
+	public Order(ShoppingCart shoppingCart, Double totalPrice) {
 		this.id = UUID.randomUUID().toString();
 		this.shoppingCart = shoppingCart;
-		this.totalPrice = calculateTotalPrice(shoppingCart);
-	}
-	
-	private Double calculateTotalPrice(ShoppingCart shoppingCart) {
-		return 100.00;
+		this.totalPrice = totalPrice;
+		this.status = pendingStatus;
 	}
 
 	public String getId() {
@@ -41,5 +42,13 @@ public class Order {
 
 	public void setTotalPrice(Double totalPrice) {
 		this.totalPrice = totalPrice;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

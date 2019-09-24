@@ -21,6 +21,11 @@ public class RequestExceptionHandler {
     public ResponseEntity<Object> notFoundError(Exception ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
+
+    @ExceptionHandler({ BookNotFoundException.class })
+    public ResponseEntity<Object> bookNotFoundError(Exception ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
 //
 //    @ExceptionHandler({ EmptyResultDataAccessException.class })
 //    public ResponseEntity<Object> deleteError(Exception ex) {

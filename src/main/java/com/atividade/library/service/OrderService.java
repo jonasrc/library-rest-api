@@ -1,10 +1,13 @@
 package com.atividade.library.service;
 
+import java.util.List;
+
 import com.atividade.library.domain.Order;
-import com.atividade.library.domain.ShoppingCart;
 
 public interface OrderService {
-	public Order getOrder(String id);
+	public Order getById(String id);
 	
-	public Order postOrder(ShoppingCart shoppingCart);
+	public List<Order> getList();
+	
+	public Order create(String shoppingCartId);
 }

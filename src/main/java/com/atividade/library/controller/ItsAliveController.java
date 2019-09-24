@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/its-alive")
+@RequestMapping(value = "/api/its-alive")
 public class ItsAliveController {
 	
-	@GetMapping("")
+	@GetMapping
 	public ResponseEntity<String> itsAlive() {
 		return ResponseEntity.ok().body("It's alive!");
 	}
