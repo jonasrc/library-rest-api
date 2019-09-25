@@ -40,6 +40,16 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 	public List<ShoppingCart> getList() {
 		return this.mockShoppingCartList;
 	}
+	
+	@Override
+	public ShoppingCart create(String bookId) {
+		if(bookId != null) {
+			Book book = bookService.getById(bookId);
+			return new ShoppingCart(book);
+		}
+		
+		return new ShoppingCart();
+	}
 
 	@Override
 	public ShoppingCart addBook(String shoppingCartId, String bookId) {

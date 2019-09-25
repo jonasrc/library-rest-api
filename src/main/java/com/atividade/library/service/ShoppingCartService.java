@@ -9,6 +9,8 @@ public interface ShoppingCartService {
 	
 	public List<ShoppingCart> getList();
 	
+	public ShoppingCart create(String bookId);
+	
 	public ShoppingCart addBook(String shoppingCartId, String bookId);
 	
 	public ShoppingCart removeBook(String shoppingCartId, String bookId);

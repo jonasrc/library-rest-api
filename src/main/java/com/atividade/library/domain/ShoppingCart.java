@@ -12,6 +12,10 @@ public class ShoppingCart {
 	@Autowired
 	private List<Book> bookList = new ArrayList<>();
 	
+	public ShoppingCart() {
+		this.id = UUID.randomUUID().toString();
+	}
+	
 	public ShoppingCart(Book book) {
 		this.id = UUID.randomUUID().toString();
 		this.bookList.add(book);

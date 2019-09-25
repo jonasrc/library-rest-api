@@ -1,5 +1,6 @@
 package com.atividade.library.controller;
 
+import java.net.URI;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,8 +8,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.atividade.library.domain.ShoppingCart;
@@ -19,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/shopping-cart")
-@Api(tags = "Carrinho de compra", value = "shoppingCartController")
+@Api(tags = "Carrinho de compra", value = "shoppingCartController", description="Listagem, busca, adição e remoção de livros a carrinhos de compras")
 public class ShoppingCartController {
 	
 	@Autowired
@@ -35,6 +38,13 @@ public class ShoppingCartController {
     @ApiOperation(value = "Buscar lista de carrinhos de compras")
 	public ResponseEntity<List<ShoppingCart>> getList(){
 		return ResponseEntity.ok().body(shoppingCartService.getList());
+	}
+	
+	@PostMapping
+	@ApiOperation(value = "Criar carrinho de compras")
+	public ResponseEntity<ShoppingCart> create(@RequestParam(required = false) String bookId){
+		ShoppingCart shoppingCart = shoppingCartService.create(bookId);
+		return ResponseEntity.created(URI.create(shoppingCart.getId())).body(shoppingCart);
 	}
 	
 	@PutMapping("/{shoppingCartId}/book/{bookId}")

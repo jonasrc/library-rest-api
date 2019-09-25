@@ -20,7 +20,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/order")
-@Api(tags = "Pedidos de compra", value = "orderController")
+@Api(tags = "Pedidos de compra", value = "orderController", description="Criação, busca e listagem de pedidos de compras")
 public class OrderController {
 	
 	@Autowired

@@ -21,7 +21,7 @@ import io.swagger.annotations.ApiOperation;
 
 @RestController
 @RequestMapping(value = "/api/book")
-@Api(tags = "Livros", value = "bookController")
+@Api(tags = "Livros", value = "bookController", description="Cadastro, listagem e adição de comentários a livros")
 public class BookController {
 	
 	@Autowired
