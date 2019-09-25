@@ -19,10 +19,11 @@ import com.atividade.library.service.ShoppingCartService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 @RestController
-@RequestMapping(value = "/api/shopping-cart")
-@Api(tags = "Carrinho de compra", value = "shoppingCartController", description="Listagem, busca, adição e remoção de livros a carrinhos de compras")
+@RequestMapping(value = "/api/v1/shopping-cart")
+@Api(tags = "Carrinho de compra", value = "shoppingCartController", description="Criação, listagem e busca de carrinhos de compra, e adição / remoção de livros de carrinhos de compras")
 public class ShoppingCartController {
 	
 	@Autowired
@@ -30,7 +31,9 @@ public class ShoppingCartController {
 	
 	@GetMapping("/{id}")
     @ApiOperation(value = "Buscar carrinho de compras a partir de seu ID")
-	public ResponseEntity<ShoppingCart> getById(@PathVariable String id){
+	public ResponseEntity<ShoppingCart> getById(
+            @ApiParam(value = "ID do carrinho de compras a ser buscado.", required = true)
+            @PathVariable String id){
 		return ResponseEntity.ok().body(shoppingCartService.getById(id));
 	}
 	
@@ -42,21 +45,31 @@ public class ShoppingCartController {
 	
 	@PostMapping
 	@ApiOperation(value = "Criar carrinho de compras")
-	public ResponseEntity<ShoppingCart> create(@RequestParam(required = false) String bookId){
+	public ResponseEntity<ShoppingCart> create(
+            @ApiParam(value = "ID do livro a ser adicionado ao novo carrinho de compras. O parâmetro é opcional, e caso não seja passado, o carrinho será criado vazio.", required = false)
+			@RequestParam(required = false) String bookId){
 		ShoppingCart shoppingCart = shoppingCartService.create(bookId);
 		return ResponseEntity.created(URI.create(shoppingCart.getId())).body(shoppingCart);
 	}
 	
 	@PutMapping("/{shoppingCartId}/book/{bookId}")
     @ApiOperation(value = "Adicionar livro a um carrinho de compras")
-	public ResponseEntity<ShoppingCart> addBook(@PathVariable String shoppingCartId, @PathVariable String bookId){
+	public ResponseEntity<ShoppingCart> addBook(
+            @ApiParam(value = "ID do carrinho de compras ao qual o livro será adicionado.", required = true)
+			@PathVariable String shoppingCartId, 
+            @ApiParam(value = "ID do livro a ser adicionado.", required = true)
+            @PathVariable String bookId){
 		ShoppingCart shoppingCart = shoppingCartService.addBook(shoppingCartId, bookId);
 		return ResponseEntity.ok().body(shoppingCart);
 	}
 	
 	@DeleteMapping("/{shoppingCartId}/book/{bookId}")
     @ApiOperation(value = "Remover livro de um carrinho de compras")
-	public ResponseEntity<ShoppingCart> removeBook(@PathVariable String shoppingCartId, @PathVariable String bookId){
+	public ResponseEntity<ShoppingCart> removeBook(
+            @ApiParam(value = "ID do carrinho de compras do qual o livro será removido.", required = true)
+			@PathVariable String shoppingCartId, 
+            @ApiParam(value = "ID do livro a ser removido.", required = true)
+            @PathVariable String bookId){
 		ShoppingCart shoppingCart = shoppingCartService.removeBook(shoppingCartId, bookId);
 		return ResponseEntity.ok().body(shoppingCart);
 	}

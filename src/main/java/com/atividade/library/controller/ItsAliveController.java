@@ -9,7 +9,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
 @RestController
-@RequestMapping(value = "/api/its-alive")
+@RequestMapping(value = "/api/v1/its-alive")
 @Api(tags = "Health check", value = "itsAliveController", description="Checagem de status da API")
 public class ItsAliveController {
 	
