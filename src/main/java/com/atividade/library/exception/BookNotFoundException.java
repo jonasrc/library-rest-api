@@ -1,6 +1,8 @@
 package com.atividade.library.exception;
 
-public class BookNotFoundException extends Exception {
+import java.util.NoSuchElementException;
+
+public class BookNotFoundException extends NoSuchElementException {
     public BookNotFoundException(String id) {
         super("Book with ID \"" + id + "\" not found.");
     }

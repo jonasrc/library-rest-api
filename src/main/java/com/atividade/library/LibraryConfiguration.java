@@ -29,9 +29,10 @@ public class LibraryConfiguration {
 	
 	private ApiInfo apiEndPointsInfo() {
 
-        return new ApiInfoBuilder().title("Spring Boot REST API")
-                .description("Language Management REST API")
-                .contact(new Contact("Swathi Prasad", "www.techshard.com", "techshard08@gmail.com"))
+        return new ApiInfoBuilder().title("Gestão de livraria virtual")
+                .description("Spring boot REST API para gestão de uma livraria virtual"
+                		+ "\n\nAPI implementada como parte da disciplina de Arquitetura de Backend e Microsserviços do curso de pós-graduação em Arquitetura de Software Distribuído da PUC Minas.")
+                .contact(new Contact("Jonas Castanheira", "https://github.com/jonasrc", "jonasrcastanheira@gmail.com"))
                 .license("Apache 2.0")
                 .licenseUrl("http://www.apache.org/licenses/LICENSE-2.0.html")
                 .version("1.0-SNAPSHOT")

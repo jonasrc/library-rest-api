@@ -15,24 +15,31 @@ import org.springframework.web.bind.annotation.RestController;
 import com.atividade.library.domain.Order;
 import com.atividade.library.service.OrderService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/api/order")
+@Api(tags = "Pedidos de compra", value = "orderController")
 public class OrderController {
 	
 	@Autowired
 	private OrderService orderService;
 	
 	@GetMapping("/{id}")
+    @ApiOperation(value = "Buscar pedido de compra a partir de seu ID")
 	public ResponseEntity<Order> getById(@PathVariable String id){
 		return ResponseEntity.ok().body(orderService.getById(id));
 	}
 	
 	@GetMapping
+    @ApiOperation(value = "Buscar lista de pedidos de compras")
 	public ResponseEntity<List<Order>> getList(){
 		return ResponseEntity.ok().body(orderService.getList());
 	}
 	
 	@PostMapping
+    @ApiOperation(value = "Criar novo pedido de compra")
 	public ResponseEntity<Order> create(@RequestParam String shoppingCartId){
 		Order order = orderService.create(shoppingCartId);
 		return ResponseEntity.created(URI.create(order.getId())).body(order);

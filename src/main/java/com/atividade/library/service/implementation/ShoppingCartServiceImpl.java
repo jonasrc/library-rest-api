@@ -2,7 +2,6 @@ package com.atividade.library.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.annotation.PostConstruct;
 
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.atividade.library.domain.Book;
 import com.atividade.library.domain.ShoppingCart;
+import com.atividade.library.exception.BookNotFoundOnShoppingCartException;
+import com.atividade.library.exception.ShoppingCartNotFoundException;
 import com.atividade.library.service.BookService;
 import com.atividade.library.service.ShoppingCartService;
 
@@ -68,12 +69,12 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		List<Book> shoppingCartBookList = shoppingCart.getBookList();
 		
 		// Asserting that the book is on the shopping cart list
-		if(shoppingCartBookList
+		if(!shoppingCartBookList
 				.stream()
 				.filter(element -> element.getId().equals(bookId))
 				.findAny()
-				.isEmpty()) {
-			throw new NoSuchElementException("Book is not on list.");
+				.isPresent()) {
+			throw new BookNotFoundOnShoppingCartException(bookId);
 		}
 		
 		// Removing book and returning resulting shopping cart
@@ -89,7 +90,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 				.orElse(null);
 		
 		if(shoppingCart == null) {
-			throw new NoSuchElementException("Shopping cart not found.");
+			throw new ShoppingCartNotFoundException(id);
 		}
 		
 		return shoppingCart;

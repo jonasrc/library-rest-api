@@ -16,19 +16,25 @@ import com.atividade.library.domain.Book;
 import com.atividade.library.domain.Comment;
 import com.atividade.library.service.BookService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/api/book")
+@Api(tags = "Livros", value = "bookController")
 public class BookController {
 	
 	@Autowired
 	private BookService bookService;
 	
 	@GetMapping("/{id}")
+    @ApiOperation(value = "Buscar livro a partir de seu ID")
 	public ResponseEntity<Book> getById(@PathVariable String id) {
 		return ResponseEntity.ok().body(bookService.getById(id));
 	}
 	
 	@GetMapping
+    @ApiOperation(value = "Buscar lista de livros")
 	public ResponseEntity<List<Book>> getList(
 			@RequestParam(required = false) String title,
 			@RequestParam(required = false) String author,
@@ -39,6 +45,7 @@ public class BookController {
 	}
 	
 	@PostMapping
+    @ApiOperation(value = "Cadastrar livro")
 	public ResponseEntity<Object> create(
 			@RequestParam String title,
 			@RequestParam String author,
@@ -49,6 +56,7 @@ public class BookController {
 	}
 	
 	@PostMapping("/{bookId}/comment")
+    @ApiOperation(value = "Postar comentário em um livro")
 	public ResponseEntity<Comment> postComment(
 			@PathVariable String bookId, 
 			@RequestParam String text, 

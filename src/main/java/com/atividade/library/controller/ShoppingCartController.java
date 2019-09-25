@@ -14,30 +14,38 @@ import org.springframework.web.bind.annotation.RestController;
 import com.atividade.library.domain.ShoppingCart;
 import com.atividade.library.service.ShoppingCartService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value = "/api/shopping-cart")
+@Api(tags = "Carrinho de compra", value = "shoppingCartController")
 public class ShoppingCartController {
 	
 	@Autowired
 	private ShoppingCartService shoppingCartService;
 	
 	@GetMapping("/{id}")
+    @ApiOperation(value = "Buscar carrinho de compras a partir de seu ID")
 	public ResponseEntity<ShoppingCart> getById(@PathVariable String id){
 		return ResponseEntity.ok().body(shoppingCartService.getById(id));
 	}
 	
 	@GetMapping
+    @ApiOperation(value = "Buscar lista de carrinhos de compras")
 	public ResponseEntity<List<ShoppingCart>> getList(){
 		return ResponseEntity.ok().body(shoppingCartService.getList());
 	}
 	
-	@PutMapping("{shoppingCartId}/book/{bookId}")
+	@PutMapping("/{shoppingCartId}/book/{bookId}")
+    @ApiOperation(value = "Adicionar livro a um carrinho de compras")
 	public ResponseEntity<ShoppingCart> addBook(@PathVariable String shoppingCartId, @PathVariable String bookId){
 		ShoppingCart shoppingCart = shoppingCartService.addBook(shoppingCartId, bookId);
 		return ResponseEntity.ok().body(shoppingCart);
 	}
 	
-	@DeleteMapping("{shoppingCartId}/book/{bookId}")
+	@DeleteMapping("/{shoppingCartId}/book/{bookId}")
+    @ApiOperation(value = "Remover livro de um carrinho de compras")
 	public ResponseEntity<ShoppingCart> removeBook(@PathVariable String shoppingCartId, @PathVariable String bookId){
 		ShoppingCart shoppingCart = shoppingCartService.removeBook(shoppingCartId, bookId);
 		return ResponseEntity.ok().body(shoppingCart);

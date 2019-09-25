@@ -22,23 +22,8 @@ public class RequestExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
-    @ExceptionHandler({ BookNotFoundException.class })
-    public ResponseEntity<Object> bookNotFoundError(Exception ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    @ExceptionHandler({ ConstraintViolationException.class })
+    public ResponseEntity<Object> updateConstraintError(Exception ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
-//
-//    @ExceptionHandler({ EmptyResultDataAccessException.class })
-//    public ResponseEntity<Object> deleteError(Exception ex) {
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-//    }
-//
-//    @ExceptionHandler({ TransactionSystemException.class })
-//    public ResponseEntity<Object> updateInexistentError(Exception ex) {
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-//    }
-//
-//    @ExceptionHandler({ ConstraintViolationException.class })
-//    public ResponseEntity<Object> updateConstraintError(Exception ex) {
-//        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-//    }
 }

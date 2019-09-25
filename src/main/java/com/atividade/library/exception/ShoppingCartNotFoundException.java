@@ -1,6 +1,8 @@
 package com.atividade.library.exception;
 
-public class ShoppingCartNotFoundException extends Exception {
+import java.util.NoSuchElementException;
+
+public class ShoppingCartNotFoundException extends NoSuchElementException {
     public ShoppingCartNotFoundException(String id) {
         super("Shopping cart with ID \"" + id + "\" not found.");
     }

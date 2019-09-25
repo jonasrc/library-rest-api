@@ -2,7 +2,6 @@ package com.atividade.library.service.implementation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import javax.annotation.PostConstruct;
 
@@ -11,6 +10,8 @@ import org.springframework.stereotype.Service;
 
 import com.atividade.library.domain.Order;
 import com.atividade.library.domain.ShoppingCart;
+import com.atividade.library.exception.OrderNotFoundException;
+import com.atividade.library.exception.ShoppingCartIsEmptyException;
 import com.atividade.library.service.OrderService;
 import com.atividade.library.service.ShoppingCartService;
 
@@ -46,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
 		ShoppingCart shoppingCart = shoppingCartService.getById(shoppingCartId);
 		
 		if(shoppingCart.getBookList().isEmpty()) {
-			throw new NoSuchElementException("Shopping cart is empty.");
+			throw new ShoppingCartIsEmptyException(shoppingCartId);
 		}
 		
 		return new Order(shoppingCart, calculateTotalPrice(shoppingCart));
@@ -56,7 +57,7 @@ public class OrderServiceImpl implements OrderService {
 		Order order = orderList.stream().filter(element -> element.getId().equals(id)).findAny().orElse(null);
 		
 		if(order == null) {
-			throw new NoSuchElementException("Order with id \"" + id + "\" not found.");
+			throw new OrderNotFoundException(id);
 		}
 		
 		return order;

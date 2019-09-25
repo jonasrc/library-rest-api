@@ -11,7 +11,7 @@ public class Order {
 	
 	private String status;
 	
-	private static final String pendingStatus = "Pendente";
+	private static final String pendingStatus = "pending";
 	
 	public Order(ShoppingCart shoppingCart, Double totalPrice) {
 		this.id = UUID.randomUUID().toString();
