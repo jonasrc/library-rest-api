@@ -2,6 +2,8 @@ package com.atividade.library.domain;
 
 import java.util.UUID;
 
+import com.atividade.library.util.Util;
+
 public class Book {
 	private String id;
 	
@@ -13,12 +15,15 @@ public class Book {
 	
 	private Double price;
 	
+	private String created_at;
+	
 	public Book(String title, String author, String edition, Double price) {
 		this.id = UUID.randomUUID().toString();
 		this.title = title;
 		this.author = author;
 		this.edition = edition;
 		this.price = price;
+		this.created_at = Util.getCurrentDateTime();
 	}
 
 	public String getId() {
@@ -55,5 +60,13 @@ public class Book {
 
 	public void setPrice(Double price) {
 		this.price = price;
+	}
+
+	public String getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(String created_at) {
+		this.created_at = created_at;
 	}
 }

@@ -2,6 +2,8 @@ package com.atividade.library.domain;
 
 import java.util.UUID;
 
+import com.atividade.library.util.Util;
+
 public class Order {
 	private String id;
 	
@@ -11,6 +13,8 @@ public class Order {
 	
 	private String status;
 	
+	private String created_at;
+	
 	private static final String pendingStatus = "pending";
 	
 	public Order(ShoppingCart shoppingCart, Double totalPrice) {
@@ -18,6 +22,7 @@ public class Order {
 		this.shoppingCart = shoppingCart;
 		this.totalPrice = totalPrice;
 		this.status = pendingStatus;
+		this.created_at = Util.getCurrentDateTime();
 	}
 
 	public String getId() {
@@ -50,5 +55,13 @@ public class Order {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(String created_at) {
+		this.created_at = created_at;
 	}
 }

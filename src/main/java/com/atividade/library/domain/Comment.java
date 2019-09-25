@@ -2,6 +2,8 @@ package com.atividade.library.domain;
 
 import java.util.UUID;
 
+import com.atividade.library.util.Util;
+
 public class Comment {
 	private String id;
 	
@@ -11,11 +13,14 @@ public class Comment {
 	
 	private String author;
 	
+	private String created_at;
+	
 	public Comment(Book book, String text, String author) {
 		this.id = UUID.randomUUID().toString();
 		this.book = book;
 		this.text = text;
 		this.author = author;
+		this.created_at = Util.getCurrentDateTime();
 	}
 
 	public String getId() {
@@ -44,5 +49,13 @@ public class Comment {
 
 	public void setAuthor(String author) {
 		this.author = author;
+	}
+
+	public String getCreated_at() {
+		return created_at;
+	}
+
+	public void setCreated_at(String created_at) {
+		this.created_at = created_at;
 	}
 }
