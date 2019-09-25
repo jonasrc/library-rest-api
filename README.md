@@ -19,7 +19,7 @@ A API segue padrões tanto em suas rotas, orientadas a coleções e, por vezes, 
 ### 3 - Evitar APIs anêmicas
 O formato da API e os tipos de recursos e operações sobre recursos que a API disponibiliza mostram que não apenas operações CRUD foram implementadas, mas que as regras de negócio da livraria virtual foram devidamente convertidas em operações.
 
-### 3 - Criação de APIs simples
+### 4 - Criação de APIs simples
 O tamanho, os nomes e formatos de rotas, métodos e parâmetros foram mantidos simples e padronizados. Apenas no caso de adição e remoção de livros dos carrinhos de compra, a URI de um endpoint se estende mais do que "coleção/item/coleção".
 
 ### 5 - Atualização em lote
