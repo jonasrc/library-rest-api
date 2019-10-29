@@ -13,7 +13,7 @@ public class Order {
 	
 	private String status;
 	
-	private String created_at;
+	private String creationDate;
 	
 	private static final String pendingStatus = "pending";
 	
@@ -22,7 +22,7 @@ public class Order {
 		this.shoppingCart = shoppingCart;
 		this.totalPrice = totalPrice;
 		this.status = pendingStatus;
-		this.created_at = Util.getCurrentDateTime();
+		this.creationDate = Util.getCurrentDateTime();
 	}
 
 	public String getId() {
@@ -57,11 +57,11 @@ public class Order {
 		this.status = status;
 	}
 
-	public String getCreated_at() {
-		return created_at;
+	public String getCreationDate() {
+		return creationDate;
 	}
 
-	public void setCreated_at(String created_at) {
-		this.created_at = created_at;
+	public void setCreationDate(String created_at) {
+		this.creationDate = created_at;
 	}
 }

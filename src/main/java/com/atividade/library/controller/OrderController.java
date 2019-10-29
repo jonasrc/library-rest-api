@@ -7,14 +7,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.atividade.library.util.Audit;
+import com.atividade.library.util.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.atividade.library.domain.Order;
 import com.atividade.library.exception.NotAuthorizedException;
@@ -55,9 +52,27 @@ public class OrderController {
 	public ResponseEntity<Order> create(
 			HttpServletRequest request,
             @ApiParam(value = "ID do carrinho de compras a ser usado na criação do pedido de compras.", required = true)
-            @RequestParam String shoppingCartId) throws NotAuthorizedException, IOException, URISyntaxException {
-		Authentication.authenticateUser(request);
+            @RequestParam String shoppingCartId,
+			@ApiParam(value = "Número do cartão de crédito", required = true)
+			@RequestBody String creditCardHolder,
+			@ApiParam(value = "Número do cartão de crédito", required = true)
+			@RequestBody String creditCardNumber,
+			@ApiParam(value = "Expiração do cartão de crédito", required = true)
+			@RequestBody String creditCardExpirationDate,
+			@ApiParam(value = "Código de segurança do cartão de crédito", required = true)
+			@RequestBody String creditCardCVC) throws NotAuthorizedException, IOException, URISyntaxException {
+//		Authenticating user
+		String userId = Authentication.authenticateUser(request);
+
+//		Creating order
 		Order order = orderService.create(shoppingCartId);
+
+//		Creating credit card purchase
+		String transactionId = Transaction.postPurchase(order.getId(), userId, creditCardHolder, creditCardNumber, creditCardExpirationDate, creditCardCVC);
+
+//		Creating audit log
+		Audit.postLog(order.getId(), userId, transactionId, order.getCreationDate());
+
 		return ResponseEntity.created(URI.create(order.getId())).body(order);
 	}
 }

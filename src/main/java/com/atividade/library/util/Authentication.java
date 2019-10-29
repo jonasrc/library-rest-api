@@ -13,11 +13,11 @@ public class Authentication {
 	
 	private static Map<String, String> authApi = new HashMap<String, String>() {{
 		put("scheme", "http");
-		put("host", "localhost:9000/auth/v1/api");
+		put("host", "localhost:9010/auth/v1/api");
 		put("authenticate", "/authenticate");
 	}};
 	
-	public static void authenticateUser(HttpServletRequest request) throws IOException, URISyntaxException, NotAuthorizedException {
+	public static String authenticateUser(HttpServletRequest request) throws IOException, URISyntaxException, NotAuthorizedException {
 		String authorization = request.getHeader("Authorization");
 
 		if(authorization == null) {
@@ -36,5 +36,7 @@ public class Authentication {
 		if(!response.equals("authorized")) {
 			throw new NotAuthorizedException();
 		}
+
+		return response;
 	}
 }
